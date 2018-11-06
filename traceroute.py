@@ -140,4 +140,6 @@ def get_route(hostname):
 
 
 get_route("www.google.com")
-
+# get_route("www.yahoo.com")
+# get_route("www.mst.edu")
+# get_route("www.williamlorey.com")
