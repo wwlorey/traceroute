@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo ./traceroute.py 
+sudo python3 traceroute.py 
