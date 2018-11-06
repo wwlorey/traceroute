@@ -62,6 +62,14 @@ def build_packet():
     return packet
 
 
+def resolve_name_from_ip(addr):
+    try:
+        return gethostbyaddr(addr)[0]
+
+    except:
+        return addr
+    
+
 def get_route(hostname):
     timeLeft = TIMEOUT
 
@@ -83,21 +91,21 @@ def get_route(hostname):
                 startedSelect = time.time()
 
                 if timeLeft <= 0:
-                    print("   *    *    * Request timed out.")
+                    print(" *\t*\t*\tRequest timed out.")
                     continue
 
                 whatReady = select.select([mySocket], [], [], timeLeft)
                 howLongInSelect = (time.time() - startedSelect)
 
                 if whatReady[0] == []: # Timeout
-                    print(" *    *    * Request timed out.")
+                    print(" *\t*\t*\tRequest timed out.")
 
                 recvPacket, addr = mySocket.recvfrom(1024)
                 timeReceived = time.time()
                 timeLeft = timeLeft - howLongInSelect
 
                 if timeLeft <= 0:
-                    print(" *    *    * Request timed out.")
+                    print(" *\t*\t*\tRequest timed out.")
 
             except socket.timeout:
                 continue
@@ -109,17 +117,17 @@ def get_route(hostname):
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t)*1000, addr[0]))
+                    print(" %d     rtt=%.0f ms    %s    %s" % (ttl, (timeReceived - t)*1000, addr[0], resolve_name_from_ip(addr[0])))
                      
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t)*1000, addr[0]))
+                    print(" %d     rtt=%.0f ms    %s    %s" % (ttl, (timeReceived - t)*1000, addr[0], resolve_name_from_ip(addr[0])))
                      
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t)*1000, addr[0]))
+                    print(" %d     rtt=%.0f ms    %s    %s" % (ttl, (timeReceived - t)*1000, addr[0], resolve_name_from_ip(addr[0])))
                     return
 
                 else:
