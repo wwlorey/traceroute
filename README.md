@@ -1,3 +1,7 @@
+#### CS 5600 Networks | A traceroute implementation
+
+#### Assignment prompt:
+
 # Programming assignment 3 (pa03)
 
 Implement the requested activity and the optional activity in Traceroute.pdf.
